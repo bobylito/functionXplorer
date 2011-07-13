@@ -1,0 +1,17 @@
+<!doctype html>
+<html>
+  <head>
+    <title>JS plot example</title>
+    <script src="plot.js"></script>
+    <script>
+window.addEventListener("load", function(){
+  jsPlot("graph", {}, function(x){return Math.cos(x)+1});
+}, false);
+    </script>
+  </head>
+  <body>
+    <h1>This is not an example</h1>
+    <p>Actually it is but you know, it's for the joke (ahah... humm)</p>
+    <div id="graph"></div>
+  </body>
+</html>
