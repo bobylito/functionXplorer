@@ -75,7 +75,7 @@ window.jsPlot =
       canvasWidth : 500
     };
 
-    return function(id, settings, func){
+    return function(id, settings, funcZ){
       var set = utils.extend({}, defaultConfig, settings);
       
       var X = set.X = set.Xmax - set.Xmin;
@@ -85,14 +85,18 @@ window.jsPlot =
       var yscale = set.yscale = set.canvasHeight/Y;
       
       var c = utils.createCanvas(id, set);
-      //Changement d'axes)
+      //Axes redefinition
       c.scale(1,-1);
-      c.translate(0 - (set.Xmin * xscale), -500 - (set.Ymin * yscale) );
-      
+      c.translate(0, -set.canvasHeight); //Finish axes changing properly
+      c.translate(-(set.Xmin * xscale), -(set.Ymin * yscale) ); //Not 0,0 on bottom left :)  
+     
+      //Background 
       utils.drawGrid(c, set);
       utils.drawAxes(c, set);
 
       //Tracé de la fonction
-      utils.drawFunction(c, set, func);
+      for(var fi = 0; fi < funcZ.length; fi++){
+        utils.drawFunction(c, set, funcZ[fi]);
+      } 
     };
    })(window, document);

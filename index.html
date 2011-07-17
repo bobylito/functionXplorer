@@ -7,7 +7,14 @@
     <script src="plot.js"></script>
     <script>
 window.addEventListener("load", function(){
-  jsPlot("graph", {Xmin: -15, Ymin: -2, Xmax : 15, Ymax: 2, canvasWidth : 800}, function(x){return Math.cos(x)});
+  jsPlot("graph", {Xmin: -15, Ymin: -20, Xmax : 15, Ymax: 20, canvasWidth : 800, canvasHeight : 600}, 
+                  [ function(x){return Math.cos(x)}, 
+                    function(x){return Math.sin(x)}, 
+                    function(x){return x*x},  
+                    function(x){return x*x*x},  
+                    function(x){return Math.log(x)},  
+                    function(x){return 1/x}
+                  ]);
 }, false);
     </script>
   </head>
