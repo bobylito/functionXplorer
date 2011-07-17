@@ -15,11 +15,11 @@ window.jsPlot =
         })
         return target;
       },
-      createCanvas : function(id){
+      createCanvas : function(id, set){
         var e = d.getElementById(id);
         var canvas = d.createElement("canvas");
-        canvas.width="500";
-        canvas.height="500";
+        canvas.width=set.canvasWidth;
+        canvas.height=set.canvasHeight;
         e.appendChild(canvas);
         return canvas.getContext("2d");
       },
@@ -84,8 +84,8 @@ window.jsPlot =
       var xscale = set.xscale = set.canvasWidth/X;
       var yscale = set.yscale = set.canvasHeight/Y;
       
-      var c = utils.createCanvas(id);
-      //Changement d'axes
+      var c = utils.createCanvas(id, set);
+      //Changement d'axes)
       c.scale(1,-1);
       c.translate(0 - (set.Xmin * xscale), -500 - (set.Ymin * yscale) );
       
