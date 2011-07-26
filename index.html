@@ -3,24 +3,44 @@
   <head>
     <title>JS plot example</title>
     <style>
+    *{margin : 0; padding: 0;}
+    ul{list-style-type:none;}
+    #application{position: relative}
+    #visualization, #configuration {position: absolute} 
+    #visualization{left: 0; top: 0; width:100%; min-height:800}
+    #configuration{right:0; top: 0; width:300px;text-align:right;border:1px solid #000 }
     </style>
-    <script src="plot.js"></script>
-    <script>
-window.addEventListener("load", function(){
-  jsPlot("graph", {Xmin: -15, Ymin: -20, Xmax : 15, Ymax: 20, canvasWidth : 800, canvasHeight : 600}, 
-                  [ function(x){return Math.cos(x)}, 
-                    function(x){return Math.sin(x)}, 
-                    function(x){return x*x},  
-                    function(x){return x*x*x},  
-                    function(x){return Math.log(x)},  
-                    function(x){return 1/x}
-                  ]);
-}, false);
-    </script>
   </head>
   <body>
-    <h1>This is not an example</h1>
-    <p>Actually it is but you know, it's for the joke (ahah... humm)</p>
-    <div id="graph"></div>
+    <h1>JS Plot</h1>
+    <div id="application">
+      <div id="visualization"></div>
+      <div id="configuration"></div>
+    </div>
+    
+    <script type="text/html" id="config-template"> 
+      <h2>Configuration</h2>
+      <label for="Xmin">X min</label>
+      <input id="Xmin" type="number" step="0.1" value="<%=Xmin%>"/><br/>
+      <label for="Xmax">X max</label>
+      <input id="Xmax" type="number" step="0.1" value="<%=Xmax%>"/><br/>
+      <label for="Ymin">Y min</label>
+      <input id="Ymin" type="number" step="0.1" value="<%=Ymin%>"/><br/>
+      <label for="Ymax">Y max</label>
+      <input id="Ymax" type="number" step="0.1" value="<%=Ymax%>"/>
+    </script>
+
+    <script type="text/html" id="formula-template">
+      <input class="formula" value="<%=bodyAsString%>" />
+    </script> 
+    
+    
+    <script src="plot.js"></script>
+    <script src="lib/jquery.min.js"></script>
+    <script src="lib/json2.js"></script>
+    <script src="lib/underscore-min.js"></script>
+    <script src="lib/backbone-min.js"></script>
+
+    <script src="app.js"></script>
   </body>
 </html>
