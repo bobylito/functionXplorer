@@ -17,10 +17,13 @@ window.jsPlot =
       },
       createCanvas : function(id, set){
         var e = d.getElementById(id);
-        var canvas = d.createElement("canvas");
+        var canvas = e.querySelectorAll("canvas")[0];
+        if(!canvas){
+          canvas = d.createElement("canvas"); 
+          e.appendChild(canvas);
+        }
         canvas.width=set.canvasWidth;
         canvas.height=set.canvasHeight;
-        e.appendChild(canvas);
         return canvas.getContext("2d");
       },
       drawAxes : function(c, set){
