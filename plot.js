@@ -42,14 +42,14 @@ window.jsPlot =
         c.save();
         c.strokeStyle="#EEF";
         c.beginPath();
-        for(var a=set.Xmin; a<=set.Xmax; a++){
+        for(var a=Math.floor(set.Xmin); a<set.Xmax; a++){
           c.moveTo(a*set.xscale, set.Ymin * set.yscale);
           c.lineTo(a*set.xscale, set.Ymax * set.yscale);
         }
         c.stroke();
 
         c.beginPath();
-        for(var b=set.Ymin; b<=set.Ymax; b++){
+        for(var b=Math.floor(set.Ymin); b<set.Ymax; b++){
           c.moveTo(set.Xmin * set.xscale, b*set.yscale);
           c.lineTo(set.Xmax * set.xscale, b*set.yscale);
         }
