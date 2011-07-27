@@ -3,23 +3,28 @@
   <head>
     <title>JS plot example</title>
     <style>
-    *{margin : 0; padding: 0;}
+    *{margin : 0; padding: 0; font-family: "helvetica", "Arial", sans-serif}
     ul{list-style-type:none;}
-    #application{position: relative}
-    #visualization, #configuration {position: absolute} 
+    .button{background:#F00}
+    #application, header{position: relative}
+    header{height:50px; line-height:50px; color: white; background: #000}
+    #config-button{position: absolute; right: 10px; top: 0; text-align: right; padding: 0 10px 0 10px}
+    #visualization, #configuration {position: absolute; padding: 0px;} 
     #visualization{left: 0; top: 0; width:100%; min-height:800}
-    #configuration{right:0; top: 0; width:300px;text-align:right;border:1px solid #000 }
+    #configuration{right:10px; top: 0; padding: 10px; text-align:right;border:0px solid #000; background: rgba(255,0,0,0.8) }
     </style>
   </head>
   <body>
-    <h1>JS Plot</h1>
+    <header>
+      <h1>Function explorer</h1>
+      <div class="button" id="config-button" >Configuration</div>
+    </header>
     <div id="application">
       <div id="visualization"></div>
       <div id="configuration"></div>
     </div>
     
     <script type="text/html" id="config-template"> 
-      <h2>Configuration</h2>
       <label for="Xmin">X min</label>
       <input id="Xmin" type="number" step="0.1" value="<%=Xmin%>"/><br/>
       <label for="Xmax">X max</label>
@@ -31,7 +36,7 @@
     </script>
 
     <script type="text/html" id="formula-template">
-      <input class="formula" value="<%=bodyAsString%>" />
+    <label>f ( x ) = </label><input class="formula" value="<%=bodyAsString%>" />
     </script> 
     
     
