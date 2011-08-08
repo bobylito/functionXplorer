@@ -40,7 +40,7 @@ window.jsPlot =
       drawGrid : function(c, set){
         //quadrillage 
         c.save();
-        c.strokeStyle="#EEF";
+        c.strokeStyle="#CCF";
         c.beginPath();
         for(var a=Math.floor(set.Xmin); a<set.Xmax; a++){
           c.moveTo(a*set.xscale, set.Ymin * set.yscale);
