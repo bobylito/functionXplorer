@@ -5,23 +5,28 @@
     <style>
     *{margin : 0; padding: 0; font-family: "helvetica", "Arial", sans-serif}
     ul{list-style-type:none;}
-    .button{background:#F00}
+    header *, .panel{ -moz-user-select:none; -webkit-user-select:none; cursor: default}
+    .panel{display:none; position: absolute; padding: 0px; text-align:right; padding: 10px; border:0px;}
+    .button{position: absolute; top: 0; text-align: right; padding: 0 10px 0 10px}
     #application, header{position: relative}
     header{height:50px; line-height:50px; color: white; background: #000}
-    #config-button{position: absolute; right: 10px; top: 0; text-align: right; padding: 0 10px 0 10px}
-    #visualization, #configuration {position: absolute; padding: 0px;} 
-    #visualization{left: 0; top: 0; width:100%; min-height:800}
-    #configuration{right:10px; top: 0; padding: 10px; text-align:right;border:0px solid #000; background: rgba(255,0,0,0.8) }
+    #config-button{right: 10px; background:#F00;}
+    #formulas-button{right: 160px; background:#00F;}
+    #visualization{left: 0; top: 0; width:100%;}
+    #configuration{right:10px; top: 0; background: rgba(255,0,0,0.8) }
+    #formulas{right: 160px; top:0; background: rgba(0,0, 255, 0.8) }
     </style>
   </head>
   <body>
     <header>
       <h1>Function explorer</h1>
-      <div class="button" id="config-button" >Configuration</div>
+      <div class="button" id="config-button" data-for="configuration" >Configuration</div>
+      <div class="button" id="formulas-button" data-for="formulas" >Formulas</div>
     </header>
     <div id="application">
       <div id="visualization"></div>
-      <div id="configuration"></div>
+      <div id="configuration" class="panel"></div>
+      <div id="formulas" class="panel"></div>
     </div>
     
     <script type="text/html" id="config-template"> 
@@ -32,11 +37,14 @@
       <label for="Ymin">Y min</label>
       <input id="Ymin" type="number" step="0.1" value="<%=Ymin%>"/><br/>
       <label for="Ymax">Y max</label>
-      <input id="Ymax" type="number" step="0.1" value="<%=Ymax%>"/>
+      <input id="Ymax" type="number" step="0.1" value="<%=Ymax%>"/><br/>
+      <button class="reset">Reset</button>
     </script>
 
     <script type="text/html" id="formula-template">
-    <label>f ( x ) = </label><input class="formula" value="<%=bodyAsString%>" />
+    <label>f ( x ) = </label>
+    <input class="formula" value="<%=bodyAsString%>" />
+    <input type="checkbox" class="visible" checked/>
     </script> 
     
     
