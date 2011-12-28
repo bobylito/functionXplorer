@@ -1,0 +1,12 @@
+FunctionXplorer
+
+Web application that let you travel through functions like you would explore a map. 
+
+Technical stuff inside :
+ - backbone
+ - plot.js
+ - underscore
+ - jQuery
+ - Local Storage 
+
+
