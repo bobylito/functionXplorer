@@ -1,7 +1,7 @@
 /* Application jsPlot
  *
  * Based on backbone.js
- * */
+ */
 
 (function($){
   var eventUtils = {
@@ -27,7 +27,9 @@
         Ymin : -5,
         Ymax : 5,
         canvasHeight : 600,
-        canvasWidth : 800 
+        canvasWidth : 800, 
+        xLabel : "X",
+        yLabel : "Y"
       },
       validate: function(attrs){
         if(attrs.Xmin >= attrs.Xmax){
@@ -43,7 +45,7 @@
   var ConfigView = Backbone.View.extend({
       tagName : 'div',
       events : {
-        "keyup input" : "update",
+        //"keyup input" : "update",
         "change input" : "update",
         "click button.reset" : "reset"
       },
@@ -60,8 +62,12 @@
       update : function(){
        var newConfig = {};
        $('input', this.el).each(function(i, elt){
-           newConfig[elt.id]=parseInt(elt.value, 10);
-         });
+        if(elt.type === "number"){ 
+          newConfig[elt.id]=parseFloat(elt.value, 10);
+        }else{
+          newConfig[elt.id]=elt.value;
+        }
+       });
        this.model.set(newConfig);
       }, 
       reset: function(){
@@ -88,6 +94,8 @@
         this.conf.bind("change", this.update);
         this.formulas = formulas;
         this.formulas.bind("change", this.update);
+        this.formulas.bind("add", this.update);
+        this.formulas.bind("remove", this.update);
         $(this.el).attr("id", "graph");
         this.unClick();
       },
@@ -114,7 +122,7 @@
         this.movementHandler(e);
       },
       movementHandler : function(e){
-        console.log(e, "Not initialized");
+        //console.log(e, "Not initialized");
       },
       onMove : function(e){
         var xmin = this.conf.get('Xmin'),
@@ -138,15 +146,14 @@
 
         this.conf.set(newConfig);
         this.lastState = {
-          x:e.offsetX,
-          y:e.offsetY
+          x:e.layerX,
+          y:e.layerY
         };
       },
       onNotMove : function(e){
         //"Nope not moving"
       },
       click : function(e){
-        console.log(e);
         this.lastState = {
           x:e.layerX,
           y:e.layerY
@@ -154,7 +161,7 @@
         this.movementHandler = this.onMove;
       },
       unClick : function(e){
-        console.log(e);
+        //console.log(e);
         this.movementHandler = this.onNotMove;
       }
     });
@@ -167,7 +174,8 @@
     });
   
   var Formulas = Backbone.Collection.extend({
-      model: Formula
+      model : Formula,
+      localStorage : new Store("formulas")
     });
 
   var FormulaView = Backbone.View.extend({
@@ -175,14 +183,19 @@
       template : _.template($("#formula-template").html()),
       events : {
         "keyup input": "updateBody",
-        "click .visible": "updateBody"
+        "click .visible": "updateBody",
+        "click .delete": "removeView"
       },
       initialize : function(){
-        _.bindAll(this, 'render', 'updateBody');
+        _.bindAll(this, 'render', 'updateBody', 'removeView');
       },
       render : function(){
         $(this.el).html(this.template(this.model.toJSON()));
         return this;
+      },
+      removeView : function(){
+        this.model.collection.remove(this.model);
+        $(this.el).remove();
       },
       updateBody :function(){
         $el = $(this.el);
@@ -241,7 +254,6 @@
         this.el.find("#formulasList").append(fForm.render().el);
       },
       hideShowPanel : function(e){
-
         var src = e.target,
             target = src.dataset.for,
             openPanel = $(".panel:visible");
@@ -251,7 +263,6 @@
           openPanel.hide();
           $("#"+target).show();
         }
-
       },
       wheelHandler : function(delta, pos){
         var scale = 1 + (delta / 1000),

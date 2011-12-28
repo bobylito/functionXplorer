@@ -4,17 +4,21 @@
     <title>JS plot example</title>
     <style>
     *{margin : 0; padding: 0; font-family: "helvetica", "Arial", sans-serif}
+    fieldset{border:2px solid transparent}
     ul{list-style-type:none;}
+    body{overflow:hidden}
+    header{height:50px; line-height:50px; color: white; background: #000; box-shadow: rgba(0,0,0,0.2) 0px 4px 10px;}
     header *, .panel{ -moz-user-select:none; -webkit-user-select:none; cursor: default}
-    .panel{display:none; position: absolute; padding: 0px; text-align:right; padding: 10px; border:0px;}
-    .button{position: absolute; top: 0; text-align: right; padding: 0 10px 0 10px}
+    .panel{display:none; position: absolute; padding: 0px; text-align:right; padding: 10px; border:0px; border-radius: 0 0 3px 3px; box-shadow: rgba(0,0,0,0.2) 0px 4px 10px; background: #333; color: #DDD}
+    .button{position: absolute; top: 15px; height:35px; line-height:35px; text-align: right; padding: 0 10px 0 10px; border-radius: 3px 3px 0 0; background:#333}
     #application, header{position: relative}
-    header{height:50px; line-height:50px; color: white; background: #000}
-    #config-button{right: 10px; background:#F00;}
-    #formulas-button{right: 160px; background:#00F;}
     #visualization{left: 0; top: 0; width:100%;}
-    #configuration{right:10px; top: 0; background: rgba(255,0,0,0.8) }
-    #formulas{right: 160px; top:0; background: rgba(0,0, 255, 0.8) }
+    #config-button{right: 10px; }
+    #configuration{right:10px; top: 0;  }
+    #formulas-button{right: 160px;}
+    #formulas{right: 160px; top:0;  }
+    /*#tools-button{right: 310px;}
+    #tools{right: 310px; top:0; }*/
     </style>
   </head>
   <body>
@@ -22,38 +26,52 @@
       <h1>Function explorer</h1>
       <div class="button" id="config-button" data-for="configuration" >Configuration</div>
       <div class="button" id="formulas-button" data-for="formulas" >Formulas</div>
+      <!--<div class="button" id="tools-button" data-for="tools" >Tools</div>-->
     </header>
     <div id="application">
       <div id="visualization"></div>
       <div id="configuration" class="panel"></div>
       <div id="formulas" class="panel"></div>
+      <!-- <div id="tools" class="panel">
+        <button>Export image</button>
+        </div>-->
     </div>
     
     <script type="text/html" id="config-template"> 
-      <label for="Xmin">X min</label>
-      <input id="Xmin" type="number" step="0.1" value="<%=Xmin%>"/><br/>
-      <label for="Xmax">X max</label>
-      <input id="Xmax" type="number" step="0.1" value="<%=Xmax%>"/><br/>
-      <label for="Ymin">Y min</label>
-      <input id="Ymin" type="number" step="0.1" value="<%=Ymin%>"/><br/>
-      <label for="Ymax">Y max</label>
-      <input id="Ymax" type="number" step="0.1" value="<%=Ymax%>"/><br/>
-      <button class="reset">Reset</button>
+      <fieldset>
+        <label for="xLabel">X axis label</label>
+        <input id="xLabel" value="<%=xLabel%>"/><br/>
+        <label for="yLabel">Y axis label</label>
+        <input id="yLabel" value="<%=yLabel%>"/><br/>
+      </fieldset>
+      
+      <fieldset>
+        <label for="Xmin">X min</label>
+        <input id="Xmin" type="number" step="0.1" value="<%=Xmin%>"/><br/>
+        <label for="Xmax">X max</label>
+        <input id="Xmax" type="number" step="0.1" value="<%=Xmax%>"/><br/>
+        <label for="Ymin">Y min</label>
+        <input id="Ymin" type="number" step="0.1" value="<%=Ymin%>"/><br/>
+        <label for="Ymax">Y max</label>
+        <input id="Ymax" type="number" step="0.1" value="<%=Ymax%>"/><br/>
+        <button class="reset">Reset</button>
+      </fieldset>
     </script>
 
     <script type="text/html" id="formula-template">
     <label>f ( x ) = </label>
     <input class="formula" value="<%=bodyAsString%>" />
     <input type="checkbox" class="visible" checked/>
+    <button class="delete">Delete</button>
     </script> 
     
     
-    <script src="plot.js"></script>
+    <script src="plot.min.js"></script>
     <script src="lib/jquery.min.js"></script>
     <script src="lib/json2.js"></script>
     <script src="lib/underscore-min.js"></script>
     <script src="lib/backbone-min.js"></script>
-
+    <script src="lib/backbone.localStorage-min.js"></script>
     <script src="app.js"></script>
   </body>
 </html>
