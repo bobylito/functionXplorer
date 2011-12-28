@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
   <head>
-    <title>JS plot example</title>
+    <title>FunctionXplorer</title>
     <style>
     *{margin : 0; padding: 0; font-family: "helvetica", "Arial", sans-serif}
     fieldset{border:2px solid transparent}
@@ -19,13 +19,22 @@
     #formulas{right: 160px; top:0;  }
     /*#tools-button{right: 310px;}
     #tools{right: 310px; top:0; }*/
+    footer, #position{position: fixed; z-index:10; font-size:small; pointer-events:none;
+      -webkit-user-select: none;
+      -khtml-user-select: none;
+      -moz-user-select: none;
+      -o-user-select: none;
+      user-select: none}
+    footer{ bottom: 0; right:0}
+    footer a{pointer-events:auto}
+    #position{top:50px; left:0}
     </style>
   </head>
   <body>
     <header>
       <h1>Function Xplorer</h1>
-      <div class="button" id="config-button" data-for="configuration" >Configuration</div>
-      <div class="button" id="formulas-button" data-for="formulas" >Formulas</div>
+      <div class="button" id="config-button" data-for="configuration" >Configuration &#x25BC;</div>
+      <div class="button" id="formulas-button" data-for="formulas" >Formulas &#x25BC;</div>
       <!--<div class="button" id="tools-button" data-for="tools" >Tools</div>-->
     </header>
     <div id="application">
@@ -39,7 +48,10 @@
         <button>Export image</button>
         </div>-->
     </div>
-    
+    <div id="position"></div>
+    <footer>
+    FunctionXplorer is brought to you by <a href="http://bobylito.me">Alexandre Stanislawski</a> (<a href="http://twitter.com/bobylito">@bobylito</a>). <a href="https://github.com/bobylito/functionXplorer">Sources</a> under <a href="http://bobylito.mit-license.org/">MIT licence</a>. Based on <a href="http://bobylito.me/jsPlot">plot.js</a>
+    </footer>
     <script type="text/html" id="config-template"> 
       <fieldset>
         <label for="xLabel">X axis label</label>
@@ -60,11 +72,17 @@
         <button class="reset">Reset</button>
       </fieldset>
     </script>
-
+    <script type="text/html" id="position-template">
+    <h3>Mouse position</h3>
+    <ul>
+      <li>x : <%=x%></li>
+      <li>y : <%=y%></li>
+    </ul>
+    </script>
     <script type="text/html" id="formula-template">
     <label>f ( x ) = </label>
     <input class="formula" value="<%=bodyAsString%>" />
-    <input type="checkbox" class="visible" checked/>
+    <input type="checkbox" class="visible" <%=visible%>/>
     <button class="delete">Delete</button>
     </script> 
     

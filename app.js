@@ -89,7 +89,7 @@
       },
       defaultF : function(){return undefined},
       initialize : function(config, formulas){
-        _.bindAll(this, 'render', 'update', 'click', 'onMove', 'proxyMovementHandler');
+        _.bindAll(this, 'render', 'update', 'click', 'onMove', 'onNotMove', 'proxyMovementHandler');
         this.conf = config;
         this.conf.bind("change", this.update);
         this.formulas = formulas;
@@ -98,6 +98,8 @@
         this.formulas.bind("remove", this.update);
         $(this.el).attr("id", "graph");
         this.unClick();
+        this.mousePosDOM = $("#position");
+        this.mousePosTemplate = _.template($("#position-template").html());
       },
       render : function(config){
        return this; 
@@ -151,7 +153,20 @@
         };
       },
       onNotMove : function(e){
-        //"Nope not moving"
+        // When not moving we need to get the position of the position on the graph
+        var xmin = this.conf.get('Xmin'),
+            ymin = this.conf.get('Ymin'),
+            xmax = this.conf.get('Xmax'),
+            ymax = this.conf.get('Ymax'),
+            width = xmax - xmin,
+            height = ymax - ymin,
+            canvasHeight = this.conf.get("canvasHeight"),
+            canvasWidth = this.conf.get("canvasWidth"),
+            data = {
+                x:Math.floor((xmin + e.layerX/canvasWidth*width)*100)/100,
+                y:Math.floor((ymax - (e.layerY)/canvasHeight*height)*100)/100
+              };
+        this.mousePosDOM.html(this.mousePosTemplate(data));
       },
       click : function(e){
         this.lastState = {
@@ -190,7 +205,9 @@
         _.bindAll(this, 'render', 'updateBody', 'removeView');
       },
       render : function(){
-        $(this.el).html(this.template(this.model.toJSON()));
+        var data = this.model.toJSON();
+        data.visible = data.visible?"checked":"";
+        $(this.el).html(this.template(data));
         return this;
       },
       removeView : function(){
@@ -225,8 +242,6 @@
         //Collection formula
         this.formulas = new Formulas();
         this.formulas.bind("add", this.appendFormula);
-        this.formulas.bind("all", this.appendAllFormula);
-        this.formulas.bind("reset", this.appendAllFormula);
         this.formulas.fetch();
         if(this.formulas.length===0){
           this.addFormula();
