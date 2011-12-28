@@ -243,9 +243,6 @@
         this.formulas = new Formulas();
         this.formulas.bind("add", this.appendFormula);
         this.formulas.fetch();
-        if(this.formulas.length===0){
-          this.addFormula();
-        }
 
         this.configView = new ConfigView(configuration);
         this.graphView = new GraphView(configuration, this.formulas);
@@ -254,6 +251,10 @@
 
         configuration.change();
         eventUtils.attachWheelHandler(this.wheelHandler);
+
+        if(this.formulas.length===0){
+          this.addFormula();
+        }
       },
       render : function(){
         var configPanel = this.el.find("#configuration");
