@@ -194,17 +194,18 @@
         return this;
       },
       removeView : function(){
-        this.model.collection.remove(this.model);
+        this.model.destroy();
         $(this.el).remove();
       },
       updateBody :function(){
         $el = $(this.el);
-        var body = $el.find(".formula").attr("value");
-        var isVisible = $el.find(".visible:checked").length===1;
-        this.model.set({
+        var body = $el.find(".formula").attr("value"),
+            isVisible = $el.find(".visible:checked").length===1;
+        this.model.save({
           bodyAsString : body,
           visible : isVisible
-        }); 
+        });
+
       }
   });
 
@@ -224,34 +225,41 @@
         //Collection formula
         this.formulas = new Formulas();
         this.formulas.bind("add", this.appendFormula);
+        this.formulas.bind("all", this.appendAllFormula);
+        this.formulas.bind("reset", this.appendAllFormula);
+        this.formulas.fetch();
+        if(this.formulas.length===0){
+          this.addFormula();
+        }
 
         this.configView = new ConfigView(configuration);
         this.graphView = new GraphView(configuration, this.formulas);
 
         this.render();
-        this.addFormula();
 
         configuration.change();
         eventUtils.attachWheelHandler(this.wheelHandler);
       },
       render : function(){
-       var configPanel = this.el.find("#configuration");
-       var formulasPanel = this.el.find("#formulas");
-       var vizPanel = this.el.find("#visualization");
+        var configPanel = this.el.find("#configuration");
+        var formulasPanel = this.el.find("#formulas");
+        var vizPanel = this.el.find("#visualization");
 
-       configPanel.append(this.configView.render().el);
-       formulasPanel.append("<button id='addFormula'>Add formula</button><ul id='formulasList'></ul>");
-       vizPanel.append(this.graphView.render().el); 
+        configPanel.append(this.configView.render().el);
+        vizPanel.append(this.graphView.render().el); 
+        this.appendAllFormulas();
       }, 
       addFormula : function(){
-        var f1 = new Formula();
-        this.formulas.add(f1);
+        this.formulas.create();
       }, 
       appendFormula : function(f){
         var fForm = new FormulaView({
               model: f
             });
         this.el.find("#formulasList").append(fForm.render().el);
+      },
+      appendAllFormulas : function(){
+        this.formulas.each(this.appendFormula); 
       },
       hideShowPanel : function(e){
         var src = e.target,
