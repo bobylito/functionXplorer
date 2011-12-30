@@ -29,7 +29,9 @@
         canvasHeight : 600,
         canvasWidth : 800, 
         xLabel : "X",
-        yLabel : "Y"
+        yLabel : "Y",
+        gridDensity : 0,
+        gridVisible : true
       },
       validate: function(attrs){
         if(attrs.Xmin >= attrs.Xmax){
@@ -62,8 +64,12 @@
       update : function(){
        var newConfig = {};
        $('input', this.el).each(function(i, elt){
-        if(elt.type === "number"){ 
+// It seems getAttribute returns the value that is the html, while accessing the type attribute directly returns the value understood by the browser. It creates a bug in FFbecause it doesn't know about input type number
+        var type = elt.getAttribute("type");
+        if(type === "number"){ 
           newConfig[elt.id]=parseFloat(elt.value, 10);
+        }else if(type === "checkbox"){
+          newConfig[elt.id]= true && (elt.checked);
         }else{
           newConfig[elt.id]=elt.value;
         }
