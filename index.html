@@ -59,7 +59,7 @@
         <label for="yLabel">Y axis label</label>
         <input id="yLabel" value="<%=yLabel%>"/><br/>
       </fieldset>
-      
+
       <fieldset>
         <label for="Xmin">X min</label>
         <input id="Xmin" type="number" step="0.1" value="<%=Xmin%>"/><br/>
@@ -69,8 +69,20 @@
         <input id="Ymin" type="number" step="0.1" value="<%=Ymin%>"/><br/>
         <label for="Ymax">Y max</label>
         <input id="Ymax" type="number" step="0.1" value="<%=Ymax%>"/><br/>
-        <button class="reset">Reset</button>
       </fieldset>
+      
+      <fieldset>
+        <label>Grid density</label>
+        <input id="gridDensity" type="number" step="1" value="<%=gridDensity%>"></br>
+        <label>Show grid?</label>
+        <% if(gridVisible) { %>
+          <input id="gridVisible" type="checkbox" checked></br>
+        <% } else { %>
+          <input id="gridVisible" type="checkbox"></br>
+        <% }%>
+      </fieldset>
+      
+      <button class="reset">Reset</button>
     </script>
     <script type="text/html" id="position-template">
     <h3>Mouse position</h3>
