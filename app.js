@@ -6,17 +6,15 @@
 (function($){
   var eventUtils = {
     attachWheelHandler:function(handler){
-      var divGraph = document.getElementById("graph");
-      var h = function(e){
-        var pos = {
-          x : e.layerX/this.offsetWidth, 
-          y : 1 - e.layerY/this.offsetHeight
-        } 
-        var d = e.wheelDelta||e.detail;
+      var h = function(e, delta, deltaX, deltaY){
+        var d = deltaY * 40,
+            pos = {
+              x : e.layerX / this.offsetWidth, 
+              y : 1 - e.layerY / this.offsetHeight
+            }; 
         handler(d, pos);
       };
-      divGraph.addEventListener("mousewheel", h, false);
-      divGraph.addEventListener("DOMMouseScroll", h, false);
+      $("#graph").mousewheel(h);
     }
   };
    
