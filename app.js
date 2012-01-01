@@ -38,6 +38,19 @@
         if(attrs.Ymin >= attrs.Ymax){
           return "Ymin > Ymax ";
         }
+      }, 
+      reset : function(){
+        var Ydelta = this.defaults.Ymax - this.defaults.Ymin,
+            canvasHeight = this.get('canvasHeight'),
+            canvasWidth = this.get('canvasWidth'),
+            Xdelta = Ydelta/canvasHeight * canvasWidth, 
+            newConfig = _.extend(this.defaults, {
+              canvasHeight : canvasHeight,
+              canvasWidth : canvasWidth,
+              Xmax : Xdelta/2,
+              Xmin : -Xdelta/2
+            } );
+        this.set(newConfig);
       }
     });
 
@@ -52,6 +65,7 @@
       template : _.template($("#config-template").html()),
       initialize : function(config){
         _.bindAll(this, 'render', 'update', "reset");
+        config.reset();
         this.model = config;
         this.model.bind("change", this.render);
       },
@@ -75,11 +89,7 @@
        this.model.set(newConfig);
       }, 
       reset: function(){
-       var conf = new Config({
-          canvasHeight : this.model.get('canvasHeight'),
-          canvasWidth : this.model.get('canvasWidth')
-       });
-       this.model.set(conf.toJSON()); 
+       this.model.reset();
       }
     });
 
