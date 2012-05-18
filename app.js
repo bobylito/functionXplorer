@@ -328,7 +328,8 @@
   "blue",
   "red",
   "green",
-  "grey"
+  "blueviolet",
+  "yellowgreen"
   ]
     
   );
