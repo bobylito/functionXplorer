@@ -28,7 +28,6 @@
         canvasWidth : 800, 
         xLabel : "X",
         yLabel : "Y",
-        gridDensity : 0,
         gridVisible : true
       },
       validate: function(attrs){
@@ -319,7 +318,6 @@
               Xmax : (this.config.get('Xmax') - vT.i) * scale + vT.i,
               Ymin : (this.config.get('Ymin') - vT.j) * scale + vT.j, 
               Ymax : (this.config.get('Ymax') - vT.j) * scale + vT.j,
-              gridDensity : Math.floor(0.4*Math.log(xmax-xmin+1) )//Math.floor(Math.sqrt(Math.sqrt(xmax-xmin))*600/this.config.get('canvasWidth')) 
             };
         this.config.set(newConfig);
       }
