@@ -3,7 +3,7 @@
  * Based on backbone.js
  */
 
-(function($){
+(function($, colors){
   var eventUtils = {
     attachWheelHandler:function(handler){
       var h = function(e, delta, deltaX, deltaY){
@@ -123,9 +123,11 @@
          .select(function(e){
           return e.get('visible');
          })
-         .map(function(f){
+         .map(function(f, i){
           try{
             var f = new Function("x", "return "+f.get("bodyAsString")+";");
+            f.color = colors[i % colors.length];
+            f.width = 1.0;
             return f;
           }
           catch(e){
@@ -316,11 +318,19 @@
               Xmin : (this.config.get('Xmin') - vT.i) * scale + vT.i,
               Xmax : (this.config.get('Xmax') - vT.i) * scale + vT.i,
               Ymin : (this.config.get('Ymin') - vT.j) * scale + vT.j, 
-              Ymax : (this.config.get('Ymax') - vT.j) * scale + vT.j
+              Ymax : (this.config.get('Ymax') - vT.j) * scale + vT.j,
+              gridDensity : Math.floor(0.4*Math.log(xmax-xmin+1) )//Math.floor(Math.sqrt(Math.sqrt(xmax-xmin))*600/this.config.get('canvasWidth')) 
             };
-
         this.config.set(newConfig);
       }
     }); 
   var app = new AppView();
-})(jQuery);
+})(jQuery, 
+  [
+  "blue",
+  "red",
+  "green",
+  "grey"
+  ]
+    
+  );
