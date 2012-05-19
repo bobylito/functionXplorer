@@ -124,7 +124,7 @@
          })
          .map(function(f, i){
           try{
-            var f = new Function("x", "return "+f.get("bodyAsString")+";");
+            var f = new Function("x", "with(Math){return "+f.get("bodyAsString")+";}");
             f.color = colors[i % colors.length];
             f.width = 1.0;
             return f;
