@@ -96,9 +96,12 @@
   var GraphView = Backbone.View.extend({
       tagName : 'div',
       events : {
-        'mousedown canvas': 'click',
-        'mouseup canvas': 'unClick',
-        'mousemove canvas' : 'proxyMovementHandler'
+        'mousedown canvas'  : 'click',
+        'mouseup canvas'    : 'unClick',
+        'mousemove canvas'  : 'proxyMovementHandler',
+        'touchstart canvas' : 'click',
+        'touchend canvas'   : 'unClick',
+        'touchmove canvas'  : 'proxyMovementHandler'
       },
       defaultF : function(){return undefined},
       initialize : function(config, formulas){
@@ -118,22 +121,28 @@
        return this; 
       },
       update : function(){
-       var functions = this.formulas
-         .select(function(e){
-          return e.get('visible');
-         })
-         .map(function(f, i){
-          try{
-            var f = new Function("x", "with(Math){return "+f.get("bodyAsString")+";}");
-            f.color = colors[i % colors.length];
-            f.width = 1.0;
-            return f;
-          }
-          catch(e){
-            return this.defaultF;
-          }
-         }, this);
-       jsPlot("graph", this.conf.toJSON(), functions);
+       var conf = this.conf.toJSON(),
+           functions = this.formulas.select(function(e){
+               return e.get('visible');
+             }).map(function(f, i){
+               try{
+                 var f = new Function("x", "with(Math){return "+f.get("bodyAsString")+";}");
+                 f.color = colors[i % colors.length];
+                 f.width = 1.0;
+                 return f;
+               }
+               catch(e){
+                 return this.defaultF;
+               }
+             }, this);
+
+       jsPlot("graph", conf, functions);
+       
+       /* Dataset usage, not ready yet
+       functions.forEach(function(f){
+        console.log(jsPlot.tools.funcToDataset(f, conf));
+       });
+       */
       },
       proxyMovementHandler: function(e){
         this.movementHandler(e);
