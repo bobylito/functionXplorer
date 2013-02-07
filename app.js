@@ -278,6 +278,8 @@
 
         if(this.formulas.length===0){
           this.addFormula();
+          this.addFormula("x*x");
+          this.addFormula("cos(x)");
         }
       },
       render : function(){
@@ -289,8 +291,11 @@
         vizPanel.append(this.graphView.render().el); 
         this.appendAllFormulas();
       }, 
-      addFormula : function(){
-        this.formulas.create();
+      addFormula : function(f){
+        this.formulas.create({
+          bodyAsString: f?f:"x",
+          visible     : true
+        });
       }, 
       appendFormula : function(f){
         var fForm = new FormulaView({
