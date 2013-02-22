@@ -292,10 +292,18 @@
         this.appendAllFormulas();
       }, 
       addFormula : function(f){
-        this.formulas.create({
-          bodyAsString: f?f:"x",
-          visible     : true
-        });
+        if(typeof f === "string"){
+          this.formulas.create({
+            bodyAsString: f,
+            visible     : true
+          });
+        }
+        else {
+          this.formulas.create({
+            bodyAsString: "x",
+            visible     : true
+          });
+        }
       }, 
       appendFormula : function(f){
         var fForm = new FormulaView({
